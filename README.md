@@ -203,6 +203,6 @@ Check the console output for detailed logging information about API calls, error
 4. Ensure all tests pass
 5. Submit a pull request with detailed description
 
-## License
+## License (GrayDart)
 
-This project is created for demonstration purposes and is not intended for production use without proper security, authentication, and real API integration.
+This project is created for demonstration purposes and is not intended for production use without proper security, authentication, and real API integration. (Graydart.com)
