@@ -1,6 +1,6 @@
 ﻿# MT5 Account Overview Dashboard
 
-A simple ASP.NET Core Web API and MVC web application that displays a dashboard of MT5 client account data with mocked data API endpoints.
+An enterprise structured ASP.NET Core Web API and MVC web application that displays a dashboard of MT5 client account data with mocked data API endpoints.
 
 ## Features
 
@@ -41,6 +41,8 @@ A simple ASP.NET Core Web API and MVC web application that displays a dashboard 
    ```bash
    mkdir MTOV_DASHBOARD
    cd MTOV_DASHBOARD
+   > MTOV_API
+   > MTOV_WebApp
    ```
 
 2. **Create the project files**
@@ -63,7 +65,8 @@ A simple ASP.NET Core Web API and MVC web application that displays a dashboard 
    ```
 
 6. **Access the application**
-   - Open your browser and navigate to `https://localhost:44389`
+   - Open your browser and navigate to `https://localhost:44389` API Endpoint
+   - Open your browser and navigate to `https://localhost:7125/` Web App
    - The dashboard should load with the default account ID "12345"
 
 ### Running Tests
