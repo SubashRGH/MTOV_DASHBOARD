@@ -39,8 +39,8 @@ A simple ASP.NET Core Web API and MVC web application that displays a dashboard 
 
 1. **Clone or create the project**
    ```bash
-   mkdir MT5Dashboard
-   cd MT5Dashboard
+   mkdir MTOV_DASHBOARD
+   cd MTOV_DASHBOARD
    ```
 
 2. **Create the project files**
@@ -124,8 +124,7 @@ The mock API provides these endpoints:
   "Logging": {
     "LogLevel": {
       "Default": "Information",
-      "Microsoft.AspNetCore": "Warning",
-      "MT5Dashboard": "Information"
+      "Microsoft.AspNetCore": "Warning"
     }
   },
   "APIConfig": {
