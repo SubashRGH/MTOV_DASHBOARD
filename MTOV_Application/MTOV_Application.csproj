@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+	  <PackageReference Include="AutoMapper" Version="14.0.0" />
+	  <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MTOV_AppSettings\MTOV_AppSettings.csproj" />
+    <ProjectReference Include="..\MTOV_Domain\MTOV_Domain.csproj" />
+    <ProjectReference Include="..\MTOV_DTO\MTOV_DTO.csproj" />
+    <ProjectReference Include="..\MTOV_JwtTokenProvider\MTOV_JwtTokenProvider.csproj" />
+  </ItemGroup>
+
+</Project>

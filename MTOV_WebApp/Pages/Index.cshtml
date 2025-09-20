@@ -1,0 +1,219 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "MT5 Account Dashboard";
+}
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="h3 mb-3 text-primary">
+                <i class="fas fa-chart-line me-2"></i>MT5 Account Dashboard
+            </h1>
+        </div>
+    </div>
+
+    @if (!string.IsNullOrEmpty(TempData["ErrorMessage"] as string))
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @if (Model.DashboardViewModel?.HasError??false)
+    {
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-triangle me-2"></i>@Model.DashboardViewModel.ErrorMessage
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <!-- Account Selection -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form asp-action="LoadAccount" method="post" class="row g-3 align-items-end">
+                <div class="col-md-8">
+                    <label for="accountId" class="form-label">Account ID (ex: <b>12345, 8801001, 8801002, 8801003</b>)</label>
+                    <input type="text" class="form-control" id="accountId" name="accountId" 
+                           value="@Model.DashboardViewModel.AccountNumber" placeholder="Enter MT5 Account ID">
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search me-1"></i>Load Account
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Account Overview Cards -->
+    <div class="row mb-4">
+        <div class="col-md-6 col-lg-3 mb-3">
+            <div class="card border-primary">
+                <div class="card-body text-center">
+                    <div class="text-primary mb-2">
+                        <i class="fas fa-user-circle fa-2x"></i>
+                    </div>
+                    <h6 class="card-title text-muted">Account Number</h6>
+                    <h4 class="text-primary">@Model.DashboardViewModel.AccountNumber</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3 mb-3">
+            <div class="card border-success">
+                <div class="card-body text-center">
+                    <div class="text-success mb-2">
+                        <i class="fas fa-dollar-sign fa-2x"></i>
+                    </div>
+                    <h6 class="card-title text-muted">Balance</h6>
+                    <h4 class="text-success">$@Model.DashboardViewModel.Balance.ToString("N2")</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3 mb-3">
+            <div class="card border-info">
+                <div class="card-body text-center">
+                    <div class="text-info mb-2">
+                        <i class="fas fa-chart-bar fa-2x"></i>
+                    </div>
+                    <h6 class="card-title text-muted">Equity</h6>
+                    <h4 class="text-info">$@Model.DashboardViewModel.Equity.ToString("N2")</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3 mb-3">
+            <div class="card border-warning">
+                <div class="card-body text-center">
+                    <div class="text-warning mb-2">
+                        <i class="fas fa-percentage fa-2x"></i>
+                    </div>
+                    <h6 class="card-title text-muted">Margin Level</h6>
+                    <h4 class="text-warning">@Model.DashboardViewModel.MarginLevel.ToString("N2")%</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Account Status and Login Info -->
+    <div class="row mb-4">
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="mb-2">
+                        <i class="fas fa-circle @(Model.DashboardViewModel.AccountStatus == "Active" ? "text-success" : "text-danger") fa-2x"></i>
+                    </div>
+                    <h6 class="card-title text-muted">Account Status</h6>
+                    <h5 class="@(Model.DashboardViewModel.AccountStatus == "Active" ? "text-success" : "text-danger")">
+                        @Model.DashboardViewModel.AccountStatus
+                        <small></small>
+                    </h5>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="text-secondary mb-2">
+                        <i class="fas fa-clock fa-2x"></i>
+                    </div>
+                    <h6 class="card-title text-muted">Last Login</h6>
+                    <h6 class="text-secondary">@Model.DashboardViewModel.LastLogin.ToString("MMM dd, yyyy  HH:mm:ss")</h6>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="text-primary mb-2">
+                        <i class="fas fa-exchange-alt fa-2x"></i>
+                    </div>
+                    <h6 class="card-title text-muted">Open Trades</h6>
+                    <h4 class="text-primary">@Model.DashboardViewModel.OpenTradesCount</h4>
+                    <small></small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Open Trades Table -->
+    @if (Model.DashboardViewModel.Trades.Any())
+    {
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-list me-2"></i>Open Trades
+                    <span class="badge bg-primary ms-2">@Model.DashboardViewModel.OpenTradesCount</span>
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="text-success">
+                            <strong>Total P&L: $@Model.DashboardViewModel.TotalProfit.ToString("N2")</strong>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Ticket</th>
+                                <th>Symbol</th>
+                                <th>Volume</th>
+                                <th>Profit/Loss</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var trade in Model.DashboardViewModel.Trades)
+                            {
+                                <tr>
+                                    <td><span class="badge bg-secondary">@trade.Ticket</span></td>
+                                    <td><strong>@trade.Symbol</strong></td>
+                                    <td>@trade.Volume.ToString("N2")</td>
+                                    <td>
+                                        <span class="@(trade.Profit >= 0 ? "text-success" : "text-danger")">
+                                            <i class="fas fa-@(trade.Profit >= 0 ? "arrow-up" : "arrow-down") me-1"></i>
+                                            $@trade.Profit.ToString("N2")
+                                        </span>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="card">
+            <div class="card-body text-center text-muted">
+                <i class="fas fa-inbox fa-3x mb-3"></i>
+                <h5>No Open Trades</h5>
+                <p>This account currently has no open trading positions.</p>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        // Auto-refresh functionality (optional)
+        
+        // Form validation
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const accountId = document.getElementById('accountId').value.trim();
+            if (!accountId) {
+                e.preventDefault();
+                alert('Please enter a valid Account ID');
+            }
+        });
+    </script>
+}
